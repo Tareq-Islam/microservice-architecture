@@ -1,0 +1,65 @@
+version: '3'
+
+services:
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    networks:
+      - webnet
+
+  usermobile1:
+    build: ./backend/mobile-service
+    container_name: usermobile1
+    networks:
+      - webnet
+
+  usermobile2:
+    build: ./backend/mobile-service
+    container_name: usermobile2
+    networks:
+      - webnet
+
+  useremail1:
+    build: ./backend/email-service
+    container_name: useremail1
+    networks:
+      - webnet
+
+  useremail2:
+    build: ./backend/email-service
+    container_name: useremail2
+    networks:
+      - webnet
+
+  useraddress1:
+    build: ./backend/address-service
+    container_name: useraddress1
+    networks:
+      - webnet
+
+  useraddress2:
+    build: ./backend/address-service
+    container_name: useraddress2
+    networks:
+      - webnet
+
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: test@123
+    volumes:
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - webnet
+
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    networks:
+      - webnet
+
+networks:
+  webnet:
