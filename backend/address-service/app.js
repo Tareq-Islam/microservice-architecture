@@ -6,7 +6,7 @@ const port = 3003;
 const db = mysql.createConnection({
   host: 'mysql',
   user: 'root',
-  password: 'password',
+  password: 'test@123',
   database: 'testdb'
 });
 
@@ -19,6 +19,7 @@ db.connect((err) => {
 });
 
 app.get('/api/useraddress', (req, res) => {
+  console.log(req);
   db.query('SELECT * FROM user_address', (error, results) => {
     if (error) throw error;
     res.json(results);

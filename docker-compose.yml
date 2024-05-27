@@ -4,42 +4,61 @@ services:
   frontend:
     build: ./frontend
     container_name: frontend
+    depends_on:
+      - usermobile1
+      - usermobile2
+      - useremail1
+      - useremail2
+      - useraddress1
+      - useraddress2
     networks:
       - webnet
 
   usermobile1:
     build: ./backend/mobile-service
     container_name: usermobile1
+    depends_on:
+      - mysql
     networks:
       - webnet
 
   usermobile2:
     build: ./backend/mobile-service
     container_name: usermobile2
+    depends_on:
+      - mysql
     networks:
       - webnet
 
   useremail1:
     build: ./backend/email-service
     container_name: useremail1
+    depends_on:
+      - mysql
     networks:
       - webnet
 
   useremail2:
     build: ./backend/email-service
     container_name: useremail2
+    depends_on:
+      - mysql
     networks:
       - webnet
 
   useraddress1:
     build: ./backend/address-service
     container_name: useraddress1
+    depends_on:
+      - mysql
     networks:
       - webnet
 
   useraddress2:
     build: ./backend/address-service
     container_name: useraddress2
+    depends_on:
+      - mysql
     networks:
       - webnet
 
@@ -58,6 +77,15 @@ services:
     container_name: nginx
     ports:
       - "80:80"
+    depends_on:
+      - usermobile1
+      - usermobile2
+      - useremail1
+      - useremail2
+      - useraddress1
+      - useraddress2
+      - mysql
+      - frontend
     networks:
       - webnet
 
