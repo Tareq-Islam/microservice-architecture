@@ -27,7 +27,7 @@ const dbconection = () => {
 }
 
 app.get('/api/useraddress', (req, res) => { 
-  dbconection.query('SELECT * FROM user_address', (error, results) => {
+  dbconection().query('SELECT * FROM user_address', (error, results) => {
     if (error) throw error;
     res.json(results);
   });
