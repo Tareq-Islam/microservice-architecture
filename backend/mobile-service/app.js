@@ -3,23 +3,31 @@ const mysql = require('mysql2');
 const app = express();
 const port = 3001;
 
-const db = mysql.createConnection({
-  host: 'mysql',
-  user: 'root',
-  password: 'test@123',
-  database: 'testdb'
-});
+const db_host = process.env.DB_HOST || "localhost";
+const db_user = process.env.DB_USER || "root";
+const db_password = process.env.DB_PASSWORD || "mypass";
+const db_name = process.env.DB_Name || 'myDb';
 
-db.connect((err) => {
-  if (err) {
-    console.error('error connecting: ' + err.stack);
-    return;
-  }
-  console.log('connected to database');
-});
+const dbconection = () => {
+  const db = mysql.createConnection({
+    host: db_host,
+    user: db_user,
+    password: db_password,
+    database: db_name
+  });
+
+  db.connect((err) => {
+    if (err) {
+      console.error('error connecting: ' + err.stack);
+      return;
+    }
+    console.log('connected to database');
+  });
+  return db;
+}
 
 app.get('/api/usermobile', (req, res) => {
-  db.query('SELECT * FROM user_mobile', (error, results) => {
+  dbconection.query('SELECT * FROM user_mobile', (error, results) => {
     if (error) throw error;
     res.json(results);
   });

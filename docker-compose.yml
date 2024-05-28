@@ -17,6 +17,11 @@ services:
   usermobile1:
     build: ./backend/mobile-service
     container_name: usermobile1
+    environment:
+      - DB_HOST=${Mysql_host}
+      - DB_USER=${MySql_Db_User}
+      - DB_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - DB_Name=${MySql_Db}
     depends_on:
       - mysql
     networks:
@@ -25,6 +30,11 @@ services:
   usermobile2:
     build: ./backend/mobile-service
     container_name: usermobile2
+    environment:
+      - DB_HOST=${Mysql_host}
+      - DB_USER=${MySql_Db_User}
+      - DB_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - DB_Name=${MySql_Db}
     depends_on:
       - mysql
     networks:
@@ -33,6 +43,11 @@ services:
   useremail1:
     build: ./backend/email-service
     container_name: useremail1
+    environment:
+      - DB_HOST=${Mysql_host}
+      - DB_USER=${MySql_Db_User}
+      - DB_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - DB_Name=${MySql_Db}
     depends_on:
       - mysql
     networks:
@@ -41,6 +56,11 @@ services:
   useremail2:
     build: ./backend/email-service
     container_name: useremail2
+    environment:
+      - DB_HOST=${Mysql_host}
+      - DB_USER=${MySql_Db_User}
+      - DB_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - DB_Name=${MySql_Db}
     depends_on:
       - mysql
     networks:
@@ -49,6 +69,11 @@ services:
   useraddress1:
     build: ./backend/address-service
     container_name: useraddress1
+    environment:
+      - DB_HOST=${Mysql_host}
+      - DB_USER=${MySql_Db_User}
+      - DB_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - DB_Name=${MySql_Db}
     depends_on:
       - mysql
     networks:
@@ -57,6 +82,11 @@ services:
   useraddress2:
     build: ./backend/address-service
     container_name: useraddress2
+    environment:
+      - DB_HOST=${Mysql_host}
+      - DB_USER=${MySql_Db_User}
+      - DB_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - DB_Name=${MySql_Db}
     depends_on:
       - mysql
     networks:
@@ -64,9 +94,9 @@ services:
 
   mysql:
     image: mysql:5.7
-    container_name: mysql
+    container_name: mysql  
     environment:
-      MYSQL_ROOT_PASSWORD: test@123
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes:
       - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
@@ -78,13 +108,13 @@ services:
     ports:
       - "80:80"
     depends_on:
+      - mysql
       - usermobile1
       - usermobile2
       - useremail1
       - useremail2
       - useraddress1
-      - useraddress2
-      - mysql
+      - useraddress2     
       - frontend
     networks:
       - webnet
